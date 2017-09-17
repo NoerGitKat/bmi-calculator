@@ -17,14 +17,43 @@ class App extends Component {
 		}
 
 		this.heightChange = this.heightChange.bind(this);
+		this.weightChange = this.weightChange.bind(this);
+		this.setBMI = this.setBMI.bind(this);
+		this.getBMIClass = this.getBMIClass.bind(this);
+	}
+
+	weightChange(weight) {
+		this.setState({
+			weight: weight
+		}, this.setBMI)
 	}
 
 	heightChange(height) {
 		this.setState({
 			height: height
-		}, function() {
+		}, this.setBMI)
+	}
+
+	setBMI() {
+		let bmi = ((this.state.weight / this.state.height / this.state.height * 1000).toFixed(2));	//universal bmi calcutation formula
+		this.setState({
+			bmi: bmi,
+			bmiClass: this.getBMIClass(bmi)
+		}, () => {
 			console.log(this.state);
 		})
+	}
+
+	getBMIClass(bmi) {
+		if(bmi < 18.5) {
+			return 'Underweight';
+		} else if (bmi >= 18.5 && bmi <= 24.9) {
+			return 'Normal';
+		} else if (bmi >= 25 && bmi <= 29.9) {
+			return 'Overweight';
+		} else if (bmi >= 30) {
+			return 'Obese'
+		}
 	}
 
 	render() {
@@ -34,10 +63,13 @@ class App extends Component {
 				<form>
 					<div>
 						<label>Height</label>
-						<Range onChange={this.heightChange} />
+						<Range height={this.state.height} onChange={this.heightChange} />
+						<p>Your height is {this.state.height}</p>
 					</div>
 					<div>
 						<label>Weight</label>
+						<Range weight={this.state.weight} onChange={this.weightChange} />
+						<p>Your weight is {this.state.weight}</p>
 					</div>
 				</form>
 				 <Output />

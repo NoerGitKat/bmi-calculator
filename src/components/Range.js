@@ -19,8 +19,7 @@ class Range extends Component {
 	}
 
 	onChange(event) {
-
-		this.props.onChange(this.state.value);
+		this.props.onChange(this.state.value);	//becomes accessible in parent component
 		this.setState({
 			value: event.target.value
 		})
@@ -29,7 +28,6 @@ class Range extends Component {
 	render() {
 		return (
 			<div>
-				<h3>Height</h3>
 				<input type="range"
 				 value={this.state.value} 
 				 min={this.props.min} 
